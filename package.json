@@ -22,6 +22,7 @@
     "framer-motion": "^11.5.4",
     "iconsax-react": "^0.0.8",
     "next": "14.2.12",
+    "query-string": "^9.1.0",
     "react": "^18",
     "react-dom": "^18",
     "unplugin-auto-import": "^0.18.3",
