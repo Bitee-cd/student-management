@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-import path from "path";
+import { students } from "./[id]";
 
-const studentsFilePath = path.join(process.cwd(), "data", "students.json");
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 export default async function handler(
@@ -11,8 +9,6 @@ export default async function handler(
 ) {
   await delay(2000);
   if (req.method === "GET") {
-    const students = JSON.parse(fs.readFileSync(studentsFilePath, "utf8"));
-
     const { search = "", page = 1, pageSize = 5 } = req.query;
 
     const pageNumber = parseInt(page as string) || 1;
@@ -55,8 +51,6 @@ export default async function handler(
       return res.status(400).json({ error: "Invalid data" });
     }
 
-    const students = JSON.parse(fs.readFileSync(studentsFilePath, "utf8"));
-
     const studentExists = students.find(
       (student: Student) => student.registrationNumber === registrationNumber
     );
@@ -69,8 +63,6 @@ export default async function handler(
 
     const newStudent = { name, dob, registrationNumber, major, gpa };
     students.push(newStudent);
-
-    fs.writeFileSync(studentsFilePath, JSON.stringify(students, null, 2));
 
     return res.status(201).json(newStudent);
   }
